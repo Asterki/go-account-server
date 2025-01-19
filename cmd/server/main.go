@@ -7,6 +7,7 @@ import (
 	"os"
 
 	api "github.com/Asterki/go-test/internal/api"
+  dbServ "github.com/Asterki/go-test/internal/serv"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -26,12 +27,17 @@ func load_env_vars() {
 }
 
 func main() {
-	log.Info("Loading environment variables...")
+  var db = dbServ.OpenDB() 
+  dbServ.CreateTables(db) // Create the tables in the
+	
+
+  log.Info("Loading environment variables...")
 	load_env_vars()
 
 	log.Info("Starting the application...")
 
 	http.Handle("/", api.Router())
+
 
 	// Get the port from the environment variables
 	port := os.Getenv("PORT")
